@@ -35,6 +35,11 @@ fn test_basic() -> Result<()> {
     );
 
     assert_eq!(
+        st.query_disk("x86_64", "metal", "raw.xz").unwrap().sha256,
+        "2848b111a6917455686f38a3ce64d2321c33809b9cf796c5f6804b1c02d79d9d"
+    );
+
+    assert_eq!(
         a.images
             .as_ref()
             .unwrap()

@@ -95,4 +95,16 @@ impl Stream {
         let un = nix::sys::utsname::uname();
         self.architectures.get(un.machine())
     }
+
+    /// Find a `disk` artifact.
+    pub fn query_disk(&self, arch: &str, artifact: &str, format_name: &str) -> Option<&Artifact> {
+        self.architectures
+            .get(arch)
+            .map(|a| a.artifacts.get(artifact))
+            .flatten()
+            .map(|p| p.formats.get(format_name))
+            .flatten()
+            .map(|p| p.get("disk"))
+            .flatten()
+    }
 }
