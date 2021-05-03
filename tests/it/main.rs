@@ -19,6 +19,10 @@ fn test_basic() -> Result<()> {
     let a = st.architectures.get("x86_64").unwrap();
     if myarch == "x86_64" {
         assert!(st.this_architecture().is_some());
+        assert_eq!(
+            st.query_thisarch_single("qemu").unwrap().sha256,
+            "a7e93e32665086d4a07a14dbe6c125177402f04603fc5bb575035028701afa5b"
+        );
     }
 
     assert_eq!(
