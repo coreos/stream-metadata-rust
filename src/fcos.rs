@@ -27,6 +27,6 @@ impl Display for StreamID {
 impl StreamID {
     /// Return the URL for this stream.
     pub fn url(&self) -> String {
-        format!("{}/{}.json", STREAM_BASE_URL, self)
+        format!("{}{}.json", STREAM_BASE_URL, self)
     }
 }
