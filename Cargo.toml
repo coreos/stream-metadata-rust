@@ -1,0 +1,13 @@
+[package]
+name = "stream-metadata"
+version = "0.1.0"
+authors = ["Colin Walters <walters@verbum.org>"]
+edition = "2018"
+license = "Apache-2.0"
+
+[dependencies]
+serde = { version = "^1.0", features = ["derive"] }
+
+[dev-dependencies]
+anyhow = "1.0"
+serde_json = "1.0"
