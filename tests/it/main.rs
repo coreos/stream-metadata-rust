@@ -3,7 +3,12 @@ use anyhow::Result;
 const STREAM_DATA: &[u8] = include_bytes!("fixtures/fcos-stream.json");
 
 fn main() -> Result<()> {
-    let st: stream_metadata::Stream = serde_json::from_slice(STREAM_DATA)?;
+    assert_eq!(
+        coreos_stream_metadata::fcos::Stream::Stable.url(),
+        "https://builds.coreos.fedoraproject.org/streams/stable.json"
+    );
+
+    let st: coreos_stream_metadata::Stream = serde_json::from_slice(STREAM_DATA)?;
     assert_eq!(st.stream, "stable");
     assert_eq!(
         st.architectures
