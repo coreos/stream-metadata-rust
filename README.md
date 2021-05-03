@@ -14,7 +14,7 @@ use coreos_stream_metadata::Stream;
 
 #[tokio::main]
 fn main() -> Result<()> {
-  let streamid = coreos_stream_metadata::fcos::Stream::Stable;
+  let streamid = coreos_stream_metadata::fcos::StreamId::Stable;
   let arch = "x86_64";
   let region = "us-east-1";
   let buf = reqwest::get(streamid.url())

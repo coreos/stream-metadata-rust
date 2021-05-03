@@ -8,23 +8,23 @@ pub const STREAM_BASE_URL: &str = "https://builds.coreos.fedoraproject.org/strea
 /// Well-known streams for Fedora CoreOS.
 ///
 /// For more information, see https://docs.fedoraproject.org/en-US/fedora-coreos/update-streams/
-pub enum Stream {
+pub enum StreamID {
     Stable,
     Testing,
     Next,
 }
 
-impl Display for Stream {
+impl Display for StreamID {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         f.write_str(match self {
-            Stream::Stable => "stable",
-            Stream::Testing => "testing",
-            Stream::Next => "next",
+            StreamID::Stable => "stable",
+            StreamID::Testing => "testing",
+            StreamID::Next => "next",
         })
     }
 }
 
-impl Stream {
+impl StreamID {
     /// Return the URL for this stream.
     pub fn url(&self) -> String {
         format!("{}/{}.json", STREAM_BASE_URL, self)
