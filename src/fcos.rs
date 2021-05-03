@@ -9,8 +9,11 @@ pub const STREAM_BASE_URL: &str = "https://builds.coreos.fedoraproject.org/strea
 ///
 /// For more information, see https://docs.fedoraproject.org/en-US/fedora-coreos/update-streams/
 pub enum StreamID {
+    /// The stable stream.
     Stable,
+    /// The testing stream.
     Testing,
+    /// The next stream.
     Next,
 }
 

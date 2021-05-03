@@ -11,9 +11,16 @@ fn test_basic() -> Result<()> {
         "https://builds.coreos.fedoraproject.org/streams/stable.json"
     );
 
+    let un = nix::sys::utsname::uname();
+    let myarch = un.machine();
+
     let st: Stream = serde_json::from_slice(STREAM_DATA)?;
     assert_eq!(st.stream, "stable");
     let a = st.architectures.get("x86_64").unwrap();
+    if myarch == "x86_64" {
+        assert!(st.this_architecture().is_some());
+    }
+
     assert_eq!(
         a.artifacts
             .get("metal")
