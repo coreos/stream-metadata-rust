@@ -1,5 +1,24 @@
 //! Library for interacting with CoreOS stream metadata, used
 //! by Fedora CoreOS and RHEL CoreOS.
+//!
+//!
+//! # Get the URL for FCOS stable stream:
+//!
+//! ```no_run
+//! use coreos_stream_metadata::fcos;
+//! let url = fcos::StreamID::Stable.url();
+//! ```
+//!
+//! # Deserialize stream data and print URL for OpenStack image
+//!
+//! ```no_run
+//! use coreos_stream_metadata::Stream;
+//!
+//! let stream: Stream = serde_json::from_reader(std::io::stdin())?;
+//! let openstack = stream.query_thisarch_single("openstack").ok_or_else(|| anyhow::anyhow!("Missing openstack image"))?;
+//! println!("OpenStack image URL: {}", openstack.location);
+//! # Ok::<(), anyhow::Error>(())
+//! ```
 
 #![deny(unused_must_use)]
 #![deny(unsafe_code)]
