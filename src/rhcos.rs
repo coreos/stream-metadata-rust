@@ -19,7 +19,7 @@ impl StreamID {
     /// Return the URL for this stream.
     pub fn url(&self) -> String {
         let branchname = match self {
-            StreamID::FourEight => "master",
+            StreamID::FourEight => "release-4.8",
         };
         format!("{}{}{}", INSTALLER_GIT, branchname, PATH)
     }
@@ -38,5 +38,6 @@ mod tests {
             StreamID::FourEight
         );
         assert!(StreamID::from_str("foo").is_err());
+        assert_eq!(StreamID::FourEight.url(), "https://raw.githubusercontent.com/openshift/installer/release-4.8/data/data/rhcos-stream.json");
     }
 }
