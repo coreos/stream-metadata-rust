@@ -24,13 +24,26 @@
 #![deny(unsafe_code)]
 #![forbid(missing_docs)]
 
-use anyhow::Result;
+use anyhow::{anyhow, Context, Result};
 use serde::Deserialize;
 use std::collections::HashMap;
 use std::str::FromStr;
+use strum_macros::{Display, EnumString};
 
 pub mod fcos;
 pub mod rhcos;
+
+/// The well-known distributions (operating systems) that generate
+/// stream metadata.
+#[derive(Debug, PartialEq, Eq, Clone, Copy, EnumString, Display)]
+#[strum(serialize_all = "lowercase")]
+// Not `pub` right now, just used in `stream_url_from_id()`
+enum Distro {
+    /// Fedora CoreOS
+    FCOS,
+    /// Red Hat Enterprise Linux CoreOS
+    RHCOS,
+}
 
 /// Toplevel stream object.
 #[derive(Debug, Deserialize)]
@@ -111,13 +124,24 @@ pub struct Images {
     pub gcp: Option<GcpImage>,
 }
 
-/// Convert a string e.g. `stable` or `rhcos-4.8` to a stream URL.
+/// Convert a string e.g. `fcos-stable` or `rhcos-4.8` to a stream URL.
+/// The format is `<distro>-<stream>`.
 pub fn stream_url_from_id(s: impl AsRef<str>) -> Result<String> {
     let s = s.as_ref();
-    Ok(if s.starts_with("rhcos-") {
-        rhcos::StreamID::from_str(s)?.url()
-    } else {
-        fcos::StreamID::from_str(s)?.url()
+    let mut it = s.splitn(2, '-');
+    let distro = it.next().unwrap();
+    let stream = it
+        .next()
+        .ok_or_else(|| anyhow!("Invalid stream ID, missing `-`: {}", s))?;
+    let distro =
+        Distro::from_str(distro).with_context(|| format!("Invalid distribution in {}", s))?;
+    Ok(match distro {
+        Distro::FCOS => fcos::StreamID::from_str(stream)
+            .with_context(|| format!("Invalid stream: {}", stream))?
+            .url(),
+        Distro::RHCOS => rhcos::StreamID::from_str(stream)
+            .with_context(|| format!("Invalid stream: {}", stream))?
+            .url(),
     })
 }
 
@@ -160,12 +184,26 @@ mod tests {
     #[test]
     fn test_stream_url() {
         assert_eq!(
-            stream_url_from_id("stable").unwrap(),
+            stream_url_from_id("fcos-stable").unwrap(),
             fcos::StreamID::Stable.url()
         );
         assert_eq!(
             stream_url_from_id("rhcos-4.8").unwrap(),
             rhcos::StreamID::FourEight.url()
         );
+
+        let invalid = &[
+            "",
+            "fcos",
+            "moo",
+            "rhcos",
+            "fcos-",
+            "-fcos",
+            "fcos-blah",
+            "fcos-blah-whee",
+        ];
+        for &elt in invalid {
+            assert!(stream_url_from_id(elt).is_err());
+        }
     }
 }

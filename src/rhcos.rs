@@ -11,7 +11,7 @@ const PATH: &str = "/data/data/rhcos-stream.json";
 #[derive(Debug, PartialEq, Eq, Clone, Copy, EnumString, Display)]
 pub enum StreamID {
     /// 4.8
-    #[strum(serialize = "rhcos-4.8")]
+    #[strum(serialize = "4.8")]
     FourEight,
 }
 
@@ -32,11 +32,8 @@ mod tests {
 
     #[test]
     fn test_rhcos_streamid() {
-        assert_eq!(StreamID::FourEight.to_string(), "rhcos-4.8");
-        assert_eq!(
-            StreamID::from_str("rhcos-4.8").unwrap(),
-            StreamID::FourEight
-        );
+        assert_eq!(StreamID::FourEight.to_string(), "4.8");
+        assert_eq!(StreamID::from_str("4.8").unwrap(), StreamID::FourEight);
         assert!(StreamID::from_str("foo").is_err());
         assert_eq!(StreamID::FourEight.url(), "https://raw.githubusercontent.com/openshift/installer/release-4.8/data/data/rhcos-stream.json");
     }
