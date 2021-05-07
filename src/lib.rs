@@ -24,10 +24,8 @@
 #![deny(unsafe_code)]
 #![forbid(missing_docs)]
 
-use anyhow::Result;
 use serde::Deserialize;
 use std::collections::HashMap;
-use std::str::FromStr;
 
 pub mod fcos;
 pub mod rhcos;
@@ -111,16 +109,6 @@ pub struct Images {
     pub gcp: Option<GcpImage>,
 }
 
-/// Convert a string e.g. `stable` or `rhcos-4.8` to a stream URL.
-pub fn stream_url_from_id(s: impl AsRef<str>) -> Result<String> {
-    let s = s.as_ref();
-    Ok(if s.starts_with("rhcos-") {
-        rhcos::StreamID::from_str(s)?.url()
-    } else {
-        fcos::StreamID::from_str(s)?.url()
-    })
-}
-
 impl Stream {
     /// Returns the data for the CPU architecture matching the running process.
     pub fn this_architecture(&self) -> Option<&Arch> {
@@ -150,22 +138,5 @@ impl Stream {
             .flatten()
             .map(|(_fmt, v)| v.get("disk"))
             .flatten()
-    }
-}
-
-#[cfg(test)]
-mod tests {
-    use super::*;
-
-    #[test]
-    fn test_stream_url() {
-        assert_eq!(
-            stream_url_from_id("stable").unwrap(),
-            fcos::StreamID::Stable.url()
-        );
-        assert_eq!(
-            stream_url_from_id("rhcos-4.8").unwrap(),
-            rhcos::StreamID::FourEight.url()
-        );
     }
 }
