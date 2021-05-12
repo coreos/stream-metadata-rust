@@ -96,7 +96,7 @@ pub struct GcpImage {
     /// The project ID.
     pub project: String,
     /// The image family.
-    pub family: String,
+    pub family: Option<String>,
     /// The image name.
     pub name: String,
 }
