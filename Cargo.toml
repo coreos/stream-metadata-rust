@@ -9,7 +9,7 @@ license = "Apache-2.0"
 anyhow = "1.0"
 nix = ">= 0.20, < 0.23"
 serde = { version = "^1.0", features = ["derive"] }
-strum = "0.21"
+strum = ">= 0.20, < 0.22"
 strum_macros = ">= 0.20, < 0.22"
 
 [dev-dependencies]
