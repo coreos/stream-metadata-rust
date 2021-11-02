@@ -91,6 +91,9 @@ pub struct AwsRegionImage {
 #[derive(Debug, Deserialize)]
 #[serde(rename_all = "kebab-case")]
 pub struct GcpImage {
+    /// The release version of FCOS.
+    // Legacy metadata doesn't have this
+    pub release: Option<String>,
     /// The project ID.
     pub project: String,
     /// The image family.
