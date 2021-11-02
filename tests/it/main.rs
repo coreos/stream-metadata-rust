@@ -1,11 +1,10 @@
-use anyhow::Result;
 use coreos_stream_metadata::Stream;
 use coreos_stream_metadata::{fcos, AwsRegionImage};
 
 const STREAM_DATA: &[u8] = include_bytes!("fixtures/fcos-stream.json");
 
 #[test]
-fn test_basic() -> Result<()> {
+fn test_basic() {
     assert_eq!(
         fcos::StreamID::Stable.url(),
         "https://builds.coreos.fedoraproject.org/streams/stable.json"
@@ -14,7 +13,7 @@ fn test_basic() -> Result<()> {
     let un = nix::sys::utsname::uname();
     let myarch = un.machine();
 
-    let st: Stream = serde_json::from_slice(STREAM_DATA)?;
+    let st: Stream = serde_json::from_slice(STREAM_DATA).unwrap();
     assert_eq!(st.stream, "stable");
     let a = st.architectures.get("x86_64").unwrap();
     if myarch == "x86_64" {
@@ -58,6 +57,4 @@ fn test_basic() -> Result<()> {
             release: "33.20201201.3.0".to_string(),
         }
     );
-
-    Ok(())
 }
