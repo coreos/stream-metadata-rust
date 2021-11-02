@@ -3,7 +3,8 @@
 use strum_macros::{Display, EnumString};
 
 const INSTALLER_GIT: &str = "https://raw.githubusercontent.com/openshift/installer/";
-const PATH: &str = "/data/data/rhcos-stream.json";
+const LEGACY_PATH: &str = "/data/data/rhcos-stream.json";
+const PATH: &str = "/data/data/coreos/rhcos.json";
 
 /// Well-known streams for RHEL CoreOS.
 ///
@@ -24,12 +25,12 @@ pub enum StreamID {
 impl StreamID {
     /// Return the URL for this stream.
     pub fn url(&self) -> String {
-        let branchname = match self {
-            StreamID::FourEight => "release-4.8",
-            StreamID::FourNine => "release-4.9",
-            StreamID::FourTen => "release-4.10",
+        let (path, branchname) = match self {
+            StreamID::FourEight => (LEGACY_PATH, "release-4.8"),
+            StreamID::FourNine => (LEGACY_PATH, "release-4.9"),
+            StreamID::FourTen => (PATH, "release-4.10"),
         };
-        format!("{}{}{}", INSTALLER_GIT, branchname, PATH)
+        format!("{}{}{}", INSTALLER_GIT, branchname, path)
     }
 }
 
@@ -51,6 +52,6 @@ mod tests {
 
         assert_eq!(StreamID::FourEight.url(), "https://raw.githubusercontent.com/openshift/installer/release-4.8/data/data/rhcos-stream.json");
         assert_eq!(StreamID::FourNine.url(), "https://raw.githubusercontent.com/openshift/installer/release-4.9/data/data/rhcos-stream.json");
-        assert_eq!(StreamID::FourTen.url(), "https://raw.githubusercontent.com/openshift/installer/release-4.10/data/data/rhcos-stream.json");
+        assert_eq!(StreamID::FourTen.url(), "https://raw.githubusercontent.com/openshift/installer/release-4.10/data/data/coreos/rhcos.json");
     }
 }
