@@ -113,7 +113,7 @@ pub struct ReplicatedObject {
 pub struct RegionObject {
     /// The release version of FCOS.
     pub release: String,
-    /// The actual object in the cloud object storage (.ova.gz for PowerVS, .qcow2 for IBMCloud)
+    /// The name of the object in the object store.
     pub object: String,
     /// The bucket where the object resides.
     pub bucket: String,
