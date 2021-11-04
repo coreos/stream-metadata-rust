@@ -107,7 +107,7 @@ pub struct ReplicatedObject {
     pub regions: HashMap<String, RegionObject>,
 }
 
-/// RegionObject like the ones used for IBMCloud/PowerVS platform containing release, object, bucket and url .
+/// Region-specific object in an object store, such as on IBMCloud or PowerVS.
 #[derive(Debug, Deserialize, PartialEq, Eq)]
 #[serde(rename_all = "kebab-case")]
 pub struct RegionObject {
