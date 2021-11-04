@@ -99,6 +99,28 @@ pub struct GcpImage {
     pub name: String,
 }
 
+/// Objects in an object store for each region, such as on IBMCloud or PowerVS.
+#[derive(Debug, Deserialize)]
+#[serde(rename_all = "kebab-case")]
+pub struct ReplicatedObject {
+    /// Mapping from region name to the object.
+    pub regions: HashMap<String, RegionObject>,
+}
+
+/// Region-specific object in an object store, such as on IBMCloud or PowerVS.
+#[derive(Debug, Deserialize, PartialEq, Eq)]
+#[serde(rename_all = "kebab-case")]
+pub struct RegionObject {
+    /// The release version of FCOS.
+    pub release: String,
+    /// The name of the object in the object store.
+    pub object: String,
+    /// The bucket where the object resides.
+    pub bucket: String,
+    /// The url of the object.
+    pub url: String,
+}
+
 /// Public cloud images.
 #[derive(Debug, Deserialize)]
 #[serde(rename_all = "kebab-case")]
@@ -107,6 +129,10 @@ pub struct Images {
     pub aws: Option<AwsImages>,
     /// Images for GCP.
     pub gcp: Option<GcpImage>,
+    /// Objects for IBMCloud
+    pub ibmcloud: Option<ReplicatedObject>,
+    /// Objects for PowerVS
+    pub powervs: Option<ReplicatedObject>,
 }
 
 impl Stream {
