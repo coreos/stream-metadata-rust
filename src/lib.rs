@@ -99,7 +99,7 @@ pub struct GcpImage {
     pub name: String,
 }
 
-/// ReplicatedObject storage images for clouds like IBMCloud/PowerVS
+/// Objects in an object store for each region, such as on IBMCloud or PowerVS.
 #[derive(Debug, Deserialize)]
 #[serde(rename_all = "kebab-case")]
 pub struct ReplicatedObject {
