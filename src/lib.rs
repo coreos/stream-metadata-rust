@@ -159,23 +159,17 @@ impl Stream {
     pub fn query_disk(&self, arch: &str, artifact: &str, format_name: &str) -> Option<&Artifact> {
         self.architectures
             .get(arch)
-            .map(|a| a.artifacts.get(artifact))
-            .flatten()
-            .map(|p| p.formats.get(format_name))
-            .flatten()
-            .map(|p| p.get("disk"))
-            .flatten()
+            .and_then(|a| a.artifacts.get(artifact))
+            .and_then(|p| p.formats.get(format_name))
+            .and_then(|p| p.get("disk"))
     }
 
     /// Find the single `disk` image for this architecture of the given type.  Only use this
     /// for images which don't have multiple format.s
     pub fn query_thisarch_single(&self, artifact: &str) -> Option<&Artifact> {
         self.this_architecture()
-            .map(|a| a.artifacts.get(artifact))
-            .flatten()
-            .map(|p| p.formats.iter().next())
-            .flatten()
-            .map(|(_fmt, v)| v.get("disk"))
-            .flatten()
+            .and_then(|a| a.artifacts.get(artifact))
+            .and_then(|p| p.formats.iter().next())
+            .and_then(|(_fmt, v)| v.get("disk"))
     }
 }
