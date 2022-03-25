@@ -117,14 +117,6 @@ pub struct ReplicatedObject {
     pub regions: HashMap<String, RegionObject>,
 }
 
-/// ContainerDisk for KubeVirt
-#[derive(Debug, Deserialize)]
-#[serde(rename_all = "kebab-case")]
-pub struct KubeVirtContainerDisk {
-    /// image reference to the container disk in a container registry
-    pub image: String,
-}
-
 /// Region-specific object in an object store, such as on IBMCloud or PowerVS.
 #[derive(Debug, Deserialize, PartialEq, Eq)]
 #[serde(rename_all = "kebab-case")]
@@ -152,7 +144,7 @@ pub struct Images {
     /// Objects for PowerVS
     pub powervs: Option<ReplicatedObject>,
     /// ContainerDisk for KubeVirt
-    pub kubevirt: Option<KubeVirtContainerDisk>,
+    pub kubevirt: Option<SingleImage>,
 }
 
 impl Stream {
