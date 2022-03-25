@@ -57,4 +57,15 @@ fn test_basic() {
             release: "33.20201201.3.0".to_string(),
         }
     );
+
+    assert_eq!(
+        a.images
+            .as_ref()
+            .unwrap()
+            .kubevirt
+            .as_ref()
+            .unwrap()
+            .image,
+        "quay.io/openshift-release-dev/rhcos@sha256:67a81539946ec0397196c145394553b8e0241acf27b14ae9de43bc56e167f773".to_string()
+    );
 }
