@@ -1,5 +1,5 @@
 use coreos_stream_metadata::Stream;
-use coreos_stream_metadata::{fcos, AwsRegionImage};
+use coreos_stream_metadata::{fcos, SingleImage};
 
 const STREAM_DATA: &[u8] = include_bytes!("fixtures/fcos-stream.json");
 
@@ -52,7 +52,7 @@ fn test_basic() {
             .regions
             .get("us-east-1")
             .unwrap(),
-        &AwsRegionImage {
+        &SingleImage {
             image: "ami-037a0ba6d14ca2e05".to_string(),
             release: "33.20201201.3.0".to_string(),
         }
