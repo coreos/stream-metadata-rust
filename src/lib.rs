@@ -69,21 +69,28 @@ pub struct Artifact {
     pub signature: Option<String>,
 }
 
-/// Image for Amazon Web Services (EC2).
+/// Alias for backward compatibility
+pub type AwsImages = ReplicatedImage;
+
+/// Alias for backward compatibility
+pub type AwsRegionImage = SingleImage;
+
+/// An image in all regions of an AWS-like cloud
 #[derive(Debug, Deserialize)]
 #[serde(rename_all = "kebab-case")]
-pub struct AwsImages {
-    /// Mapping from region name to AMI.
-    pub regions: HashMap<String, AwsRegionImage>,
+pub struct ReplicatedImage {
+    /// Mapping from region name to image
+    pub regions: HashMap<String, SingleImage>,
 }
 
-/// A pair of an AWS image (AMI) and the release version.
+/// An globally-accessible image or an image in a single region of an
+/// AWS-like cloud
 #[derive(Debug, Deserialize, PartialEq, Eq)]
 #[serde(rename_all = "kebab-case")]
-pub struct AwsRegionImage {
+pub struct SingleImage {
     /// The release version of FCOS.
     pub release: String,
-    /// AMI (HVM).
+    /// Image reference
     pub image: String,
 }
 
@@ -110,14 +117,6 @@ pub struct ReplicatedObject {
     pub regions: HashMap<String, RegionObject>,
 }
 
-/// ContainerDisk for KubeVirt
-#[derive(Debug, Deserialize)]
-#[serde(rename_all = "kebab-case")]
-pub struct KubeVirtContainerDisk {
-    /// image reference to the container disk in a container registry
-    pub image: String,
-}
-
 /// Region-specific object in an object store, such as on IBMCloud or PowerVS.
 #[derive(Debug, Deserialize, PartialEq, Eq)]
 #[serde(rename_all = "kebab-case")]
@@ -137,7 +136,7 @@ pub struct RegionObject {
 #[serde(rename_all = "kebab-case")]
 pub struct Images {
     /// Images for AWS.
-    pub aws: Option<AwsImages>,
+    pub aws: Option<ReplicatedImage>,
     /// Images for GCP.
     pub gcp: Option<GcpImage>,
     /// Objects for IBMCloud
@@ -145,7 +144,7 @@ pub struct Images {
     /// Objects for PowerVS
     pub powervs: Option<ReplicatedObject>,
     /// ContainerDisk for KubeVirt
-    pub kubevirt: Option<KubeVirtContainerDisk>,
+    pub kubevirt: Option<SingleImage>,
 }
 
 impl Stream {
