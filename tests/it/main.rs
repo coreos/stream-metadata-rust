@@ -70,4 +70,20 @@ fn test_basic() {
             release: "33.20201201.3.0".to_string(),
         }
     );
+
+    assert_eq!(
+        a.images
+            .as_ref()
+            .unwrap()
+            .aliyun
+            .as_ref()
+            .unwrap()
+            .regions
+            .get("us-east-1")
+            .unwrap(),
+        &SingleImage {
+            image: "m-0xi29kf08acv9dps47zs".to_string(),
+            release: "33.20201201.3.0".to_string(),
+        }
+    );
 }
