@@ -184,6 +184,14 @@
                 }
             },
             "images": {
+                "aliyun":{
+                    "regions": {
+                        "us-east-1": {
+                            "release": "33.20201201.3.0",
+                            "image": "m-0xi29kf08acv9dps47zs"
+                        }
+                    }                    
+                },
                 "aws": {
                     "regions": {
                         "af-south-1": {

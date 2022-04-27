@@ -135,16 +135,18 @@ pub struct RegionObject {
 #[derive(Debug, Deserialize)]
 #[serde(rename_all = "kebab-case")]
 pub struct Images {
+    /// Images for Aliyun
+    pub aliyun: Option<ReplicatedImage>,
     /// Images for AWS.
     pub aws: Option<ReplicatedImage>,
     /// Images for GCP.
     pub gcp: Option<GcpImage>,
     /// Objects for IBMCloud
     pub ibmcloud: Option<ReplicatedObject>,
-    /// Objects for PowerVS
-    pub powervs: Option<ReplicatedObject>,
     /// ContainerDisk for KubeVirt
     pub kubevirt: Option<SingleImage>,
+    /// Objects for PowerVS
+    pub powervs: Option<ReplicatedObject>,
 }
 
 impl Stream {
