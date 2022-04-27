@@ -94,6 +94,18 @@ pub struct SingleImage {
     pub image: String,
 }
 
+/// A tagged container image
+#[derive(Debug, Deserialize, PartialEq, Eq)]
+#[serde(rename_all = "kebab-case")]
+pub struct ContainerImage {
+    /// The release version of FCOS.
+    pub release: String,
+    /// Preferred way to reference the image, which might be by tag or digest
+    pub image: String,
+    /// Image reference by digest
+    pub digest_ref: String,
+}
+
 /// Image stored in Google Compute Platform.
 #[derive(Debug, Deserialize)]
 #[serde(rename_all = "kebab-case")]
@@ -144,7 +156,7 @@ pub struct Images {
     /// Objects for IBMCloud
     pub ibmcloud: Option<ReplicatedObject>,
     /// ContainerDisk for KubeVirt
-    pub kubevirt: Option<SingleImage>,
+    pub kubevirt: Option<ContainerImage>,
     /// Objects for PowerVS
     pub powervs: Option<ReplicatedObject>,
 }
