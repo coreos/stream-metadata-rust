@@ -164,8 +164,14 @@ pub struct Images {
 impl Stream {
     /// Returns the data for the CPU architecture matching the running process.
     pub fn this_architecture(&self) -> Option<&Arch> {
-        let un = nix::sys::utsname::uname();
-        self.architectures.get(un.machine())
+        self.architectures.get(
+            // uname() shouldn't fail, and our return type assumes it won't.
+            nix::sys::utsname::uname()
+                .expect("couldn't get utsname")
+                .machine()
+                .to_str()
+                .expect("utsname machine isn't UTF-8"),
+        )
     }
 
     /// Find a `disk` artifact.
