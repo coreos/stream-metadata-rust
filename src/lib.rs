@@ -164,14 +164,7 @@ pub struct Images {
 impl Stream {
     /// Returns the data for the CPU architecture matching the running process.
     pub fn this_architecture(&self) -> Option<&Arch> {
-        self.architectures.get(
-            // uname() shouldn't fail, and our return type assumes it won't.
-            nix::sys::utsname::uname()
-                .expect("couldn't get utsname")
-                .machine()
-                .to_str()
-                .expect("utsname machine isn't UTF-8"),
-        )
+        self.architectures.get(this_architecture())
     }
 
     /// Find a `disk` artifact.
@@ -190,5 +183,18 @@ impl Stream {
             .and_then(|a| a.artifacts.get(artifact))
             .and_then(|p| p.formats.iter().next())
             .and_then(|(_fmt, v)| v.get("disk"))
+    }
+}
+
+/// Return the RPM/GNU architecture identifier for the current binary.
+///
+/// See also https://github.com/coreos/stream-metadata-go/blob/c5fe1b98ac1b1e6ab62a606b7580dc1f30703f83/arch/arch.go
+pub fn this_architecture() -> &'static str {
+    match std::env::consts::ARCH {
+        // Funny enough, PowerPC is so far the only weird case here.
+        // For everything else, the Rust architecture is the same as RPM/GNU/Linux.
+        "powerpc64" if cfg!(target_endian = "big") => "ppc64",
+        "powerpc64" if cfg!(target_endian = "little") => "ppc64le",
+        o => o,
     }
 }

@@ -10,8 +10,7 @@ fn test_basic() {
         "https://builds.coreos.fedoraproject.org/streams/stable.json"
     );
 
-    let un = nix::sys::utsname::uname().unwrap();
-    let myarch = un.machine().to_str().unwrap();
+    let myarch = coreos_stream_metadata::this_architecture();
 
     let st: Stream = serde_json::from_slice(STREAM_DATA).unwrap();
     assert_eq!(st.stream, "stable");
