@@ -1,7 +1,6 @@
 [package]
 name = "coreos-stream-metadata"
 version = "0.1.0"
-authors = ["Colin Walters <walters@verbum.org>"]
 edition = "2021"
 license = "Apache-2.0"
 
