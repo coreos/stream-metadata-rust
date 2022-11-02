@@ -1,6 +1,6 @@
 [package]
 name = "coreos-stream-metadata"
-description = "Fetch and parse Fedora CoreOS (and derivatives) stream metadata"
+description = "Fetch and parse stream metadata for Fedora CoreOS and derivatives"
 repository = "https://github.com/coreos/stream-metadata-rust"
 version = "0.1.0"
 edition = "2021"
