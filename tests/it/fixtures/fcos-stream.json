@@ -91,6 +91,18 @@
                         }
                     }
                 },
+                "kubevirt": {
+                    "release": "33.20201201.3.0",
+                    "formats": {
+                        "ociarchive": {
+                            "disk": {
+                                "location": "https://builds.coreos.fedoraproject.org/prod/streams/stable/builds/33.20201201.3.0/x86_64/fedora-coreos-33.20201201.3.0-kubevirt.x86_64.ociarchive",
+                                "signature": "https://builds.coreos.fedoraproject.org/prod/streams/stable/builds/33.20201201.3.0/x86_64/fedora-coreos-33.20201201.3.0-kubevirt.x86_64.ociarchive.sig",
+                                "sha256": "2be55c5aa1f53eb9a869826dacbab75706ee6bd59185b935ac9be546cc132a85"
+                            }
+                        }
+                    }
+                },
                 "metal": {
                     "release": "33.20201201.3.0",
                     "formats": {
