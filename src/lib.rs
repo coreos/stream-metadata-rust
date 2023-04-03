@@ -52,6 +52,7 @@ pub struct Arch {
 #[derive(Debug, Deserialize)]
 pub struct Platform {
     /// The release version number.
+    pub release: String,
     /// Specific formats.
     pub formats: HashMap<String, HashMap<String, Artifact>>,
 }
@@ -175,6 +176,20 @@ impl Stream {
             .and_then(|a| a.artifacts.get(artifact))
             .and_then(|p| p.formats.get(format_name))
             .and_then(|p| p.get("disk"))
+    }
+
+    /// Find a `disk` artifact with its version.
+    pub fn query_disk_and_version(
+        &self,
+        arch: &str,
+        artifact: &str,
+        format_name: &str,
+    ) -> Option<(&Artifact, &str)> {
+        let arch = self.architectures.get(arch)?;
+        let artifact = arch.artifacts.get(artifact)?;
+        let fmt = artifact.formats.get(format_name)?;
+        let disk = fmt.get("disk")?;
+        Some((disk, artifact.release.as_str()))
     }
 
     /// Find the single `disk` image for this architecture of the given type.  Only use this
