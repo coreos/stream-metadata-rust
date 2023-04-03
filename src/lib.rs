@@ -51,6 +51,7 @@ pub struct Arch {
 /// A specific platform (e.g. `aws`, `gcp`)
 #[derive(Debug, Deserialize)]
 pub struct Platform {
+    /// The release version number.
     /// Specific formats.
     pub formats: HashMap<String, HashMap<String, Artifact>>,
 }
