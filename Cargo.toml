@@ -15,3 +15,11 @@ strum_macros = ">= 0.20, < 0.25"
 [dev-dependencies]
 anyhow = "1.0"
 serde_json = "1.0"
+
+[package.metadata.release]
+pre-release-commit-message = "cargo: coreos-stream-metadata v{{version}}"
+publish = false
+push = false
+sign-commit = true
+sign-tag = true
+tag-message = "coreos-stream-metadata v{{version}}"
