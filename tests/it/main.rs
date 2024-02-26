@@ -42,6 +42,17 @@ fn test_basic() {
     );
 
     assert_eq!(
+        st.query_disk_and_version("x86_64", "metal", "raw.xz")
+            .as_ref()
+            .map(|(d, v)| (d.sha256.as_str(), *v))
+            .unwrap(),
+        (
+            "2848b111a6917455686f38a3ce64d2321c33809b9cf796c5f6804b1c02d79d9d",
+            "33.20201201.3.0"
+        )
+    );
+
+    assert_eq!(
         a.images
             .as_ref()
             .unwrap()
